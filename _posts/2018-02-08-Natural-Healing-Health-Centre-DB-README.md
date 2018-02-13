@@ -1,9 +1,21 @@
-<font size = '5'>Version</font><br>
-<br>
+---
+layout:     post
+title:      Natural Healing Health Centre Customer DB
+subtitle:   ReadMe File
+date:       2018-02-08
+author:     Haby
+header-img: img/post-bg-2015.jpg
+catalog: true
+tags:
+    - MySQL
+    - My Work
+---
+<font size = '6'> Natural Healing Health Centre Customer DB </font>
+<font size = '5'> ReadMe File </font>
+
+1.version
 
   <font size = '3'>Version 1 : 2017-02-08</font><br>
-
-
   <font size = '3'>Version 2 : 2018-01-16</font>
 
     1.Add new table Duration : record each treatment durtion for different customers
@@ -15,7 +27,7 @@
     4.correct Sunlife company contact number in Insurance table
 
 
-<font size = '5'>Working Environment</font><br>
+2.Working Environment
 
     1.OS : Windows 10 v1702 64 bit + Ubuntu 16.04.3 LTS
 
@@ -28,21 +40,22 @@
     5.Analysis Software GUI : Spyder from Anaconda 5.0.1
 
 
-<font size = '5'>Database Details</font><br>
-<font size = '4'>About data</font><br>
+3.Database Details<br>
 
-  Data from two ways :
+About data
+
+    1.Data from two ways :
 
       # Client health history and conscent form
 
       # Paper and Online Questionares
 
-  data volumes :
+    2.data volumes :
 
       # Around 5000 rows and 18 variables in total
 
 
-<font size = '4'>There are 11 tables in total, which are :</font><br>
+There are 11 tables in total, which are :
 
     # Customer : Customer general information, like name,gender,gender,phone,email,etc
 
