@@ -13,10 +13,11 @@ tags:
 <font size = '6'> Natural Healing Health Centre Customer DB </font>
 <font size = '5'> ReadMe File </font>
 
+
 1.version
 
-  <font size = '3'>Version 1 : 2017-02-08</font><br>
-  <font size = '3'>Version 2 : 2018-01-16</font>
+  <font size = '2'>Version 1 : 2017-02-08</font>
+  <font size = '2'>Version 2 : 2018-01-16</font><br>
 
     1.Add new table Duration : record each treatment durtion for different customers
 
