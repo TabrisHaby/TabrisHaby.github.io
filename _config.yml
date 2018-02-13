@@ -11,7 +11,7 @@ github_repo: "https://github.com/TabrisHaby/TabrisHaby.github.io/" # you code re
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "[print(l) for l in 'Python']"
+sidebar-about-description: "[print(v) for v in 'Python']"
 sidebar-avatar: /img/about-BY-gentle.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
