@@ -1,20 +1,18 @@
-In [140]:
 # -*- coding: utf-8 -*-
+
+Ipython Version
+https://github.com/TabrisHaby/KAGGLE_TITANIC_with_PYTHON/blob/master/My_Code_Titanic_Python.ipynb
 """
 Created on Tue Feb 10 17:37:31 2018
-
 Titanic Competition in Kaggle
 Dataset path : E:\Data_and_Script\Python_Script\titanic\train.csv'
 Data from : Kaggle.com
-
 Python 3.6.3 
 GUI : Spyder from Anaconda 5.0.1
 OS : windows 10 v1709 64 bit
-
 P1 : EDA
 P2 : Feature Engineering
 P3 : Model and Ensemble
-
 @author: Haby
 """
 # 1.1 import Package
@@ -26,6 +24,7 @@ import seaborn as sns
 plt.style.use('ggplot')
 import warnings
 warnings.filterwarnings('ignore')
+import random
 
 # ML packages
 from sklearn.naive_bayes import GaussianNB
@@ -48,44 +47,18 @@ from sklearn.model_selection import cross_validate
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import ShuffleSplit
 
-# Stacking Model
-import xgboost as xgb
-In [141]:
+
 # 1.2 import data
-train = pd.read_csv('../input/train.csv')
-test = pd.read_csv('../input/test.csv')
+train = pd.read_csv(r'E:\Data_and_Script\Python_Script\titanic\train.csv')
+test = pd.read_csv(r'E:\Data_and_Script\Python_Script\titanic\test.csv')
 c = [train,test]
-PassengerId = test['PassergerId']
+PassengerId = test['PassengerId']
 
 # 1.3 check NAs
-print(train.isnull().sum())
-print(test.isnull().sum())
-PassengerId      0
-Survived         0
-Pclass           0
-Name             0
-Sex              0
-Age            177
-SibSp            0
-Parch            0
-Ticket           0
-Fare             0
-Cabin          687
-Embarked         2
-dtype: int64
-PassengerId      0
-Pclass           0
-Name             0
-Sex              0
-Age             86
-SibSp            0
-Parch            0
-Ticket           0
-Fare             1
-Cabin          327
-Embarked         0
-dtype: int64
-In [142]:
+train.isnull().sum()
+test.isnull().sum()
+
+#%%
 # 2.1 Basic Visualation of Survived and NAs
 _,ax = plt.subplots(1,2)
 sns.countplot(train.Survived,ax = ax[0])
@@ -93,26 +66,23 @@ sns.countplot(train.Survived,ax = ax[0])
     title = 'NAs in dataset')
 # More ppl died than survived, for dataset, more than 75% of Cabin is NA and 
 # 20% of Age is NA and few NAs in Embarked
-Out[142]:
-<matplotlib.axes._subplots.AxesSubplot at 0x7ff61c60a748>
 
-In [ ]:
+#%%
 # 2.2 Find the important features
 
 # 2.2.1 All numeric Values
 sns.heatmap(train.corr(),annot=True)
 # Pclass and Fare are seems important
-In [143]:
+
 # 2.2.2 Sex
 _,ax = plt.subplots(1,2)
 sns.countplot(train.Sex,ax =ax[0])
 sns.barplot(x = train.Sex,y = train.Survived,ax =ax[1])
 # Survived rate is apparently changed for different sex
 # str to numeric
-for data in c :
+for data in c : 
     data['Sex'] = data['Sex'].replace(['male','female'],[0,1])
 
-In [144]:
 # 2.2.3 Parch and SibSp
 _,ax = plt.subplots(2,2)
 sns.countplot(train.Parch,ax =ax[0,0])
@@ -138,12 +108,7 @@ for data in c :
 _,ax = plt.subplots(1,2)
 sns.countplot(train.FSize,ax =ax[0])
 sns.barplot(x = train.FSize,y = train.Survived,ax =ax[1])
-Out[144]:
-<matplotlib.axes._subplots.AxesSubplot at 0x7ff61cb5e320>
 
-
-
-In [145]:
 # 2.2.4 Embarked
 _,ax = plt.subplots(1,2)
 sns.countplot(train.Embarked,ax =ax[0])
@@ -156,7 +121,6 @@ for data in c :
 for data in c :
     data['Embarked'] = data['Embarked'].replace(['S','Q','C'],[0,1,2])
 
-In [146]:
 # 2.2.5 Title from Name
 for data in c:
     data['Title'] = data.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
@@ -174,9 +138,8 @@ train.groupby('Title')['Survived'].mean().plot(kind = 'bar',ax = ax[1],title = '
 for data in c :
     data['Title'] = data['Title'].replace(['Mr','Mrs','Miss','Master','Other'],
         [0,1,2,3,4])
-# title may has a strong relationship with Age and Sex, may drop in Emsemble
+# title may has a strong relationship with Age and Sex, may drop in Later
 
-In [147]:
 # 2.2.6 Age
 # age is a skewed distribution with a large tail, I considered to scale the data
 # at first , but I found groupize the age will be better choice
@@ -195,12 +158,7 @@ for data in c :
 _,ax = plt.subplots(1,2)
 sns.countplot(train.Age_Group,ax = ax[0])
 sns.barplot(x = 'Age_Group', y = 'Survived',data = train,ax = ax[1])
-Out[147]:
-<matplotlib.axes._subplots.AxesSubplot at 0x7ff617473390>
 
-
-
-In [148]:
 # 2.2.7 Cabin
 # pickup the captial word of all cabin and fill na with x
 for data in c :
@@ -214,22 +172,18 @@ sns.barplot(x = 'Cabin', y = 'Survived',data = train,ax = ax[1])
 # cabin = a,b,c,d,e,f,t are in Pclass 1, strong relationship with pclass
 # cabin means location on Titanic, better place may has a better chance to
 # survive only in first shock, if they are in water already, eveyone is same
-Out[148]:
-<matplotlib.axes._subplots.AxesSubplot at 0x7ff61736b7f0>
 
-In [149]:
 # 2.2.8 Scale the Fare
 for data in c :
     data['Fare'] = data['Fare'].map(lambda x : np.log(x) if x != 0 else 0)
-# fill na
+# inmutation
 test['Fare'] = test.groupby(['Pclass','Cabin'])['Fare'].transform(lambda x: x.fillna(x.mean()))
 
 # plot 
 sns.distplot(train.Fare)
-Out[149]:
-<matplotlib.axes._subplots.AxesSubplot at 0x7ff617324da0>
 
-In [150]:
+
+#%%
 # 2.3 drop unneeded colunms :
 drop_col = ['PassengerId','Name','Ticket','Age','SibSp','Parch']
 for data in c :
@@ -237,10 +191,7 @@ for data in c :
 
 # 2.4 corr heat map
 sns.heatmap(train.corr(),annot=True)
-Out[150]:
-<matplotlib.axes._subplots.AxesSubplot at 0x7ff61f5f5780>
 
-In [151]:
 # 2.5 Dummy all variables
 train = pd.get_dummies(train,columns = ['Pclass','Cabin','Embarked','FSize',
                                          'Title','Age_Group'])
@@ -249,9 +200,9 @@ test = pd.get_dummies(test,columns = ['Pclass','Cabin','Embarked','FSize',
 # drop Cabin_T
 train.drop('Cabin_T',inplace = True,axis = 1)
 
-print(train.shape)
-(891, 31)
-In [152]:
+# 31 variables in total        
+
+#%%
 # 3. Modling
 # Level one model I want to use
         
@@ -275,7 +226,7 @@ train_data = train.drop('Survived',axis = 1) # data
 # 3.2 train test split for scoring
 x_train,x_test,y_train,y_test = train_test_split(train_data,train_Survived,
                                                test_size = 0.25,random_state = 13)
-In [153]:
+
 # 3.3 set up dataframe to see accuracy
 models = pd.DataFrame({
     'Model': ['Support Vector Machines', 'KNN', 'Logistic Regression',
@@ -293,23 +244,24 @@ models = pd.DataFrame({
               accuracy_score(GradientBoostingClassifier().fit(x_train,y_train).predict(x_test),y_test),
               ]})
 models.sort_values(by='Score', ascending=False)
-print(models)
 g = models.plot(kind = 'bar',title = 'Models Accuracy Score')
 g.set_xlabel(list(models['Model']))
-                          Model     Score
-0       Support Vector Machines  0.834081
-1                           KNN  0.807175
-2           Logistic Regression  0.852018
-3                 Random Forest  0.807175
-4                   Naive Bayes  0.811659
-5                    Linear SVC  0.838565
-6                 Decision Tree  0.798206
-7            AdaBoost classifer  0.852018
-8  Gradient Boosting Classifier  0.816143
-Out[153]:
-Text(0.5,0,"['Support Vector Machines', 'KNN', 'Logistic Regression', 'Random Forest', 'Naive Bayes', 'Linear SVC', 'Decision Tree', 'AdaBoost classifer', 'Gradient Boosting Classifier']")
 
-In [154]:
+# result
+        # ---------------------------------------- #
+        #                          Model     Score
+        #2           Logistic Regression  0.852018
+        #7            AdaBoost classifer  0.847534
+        #5                    Linear SVC  0.838565
+        #0       Support Vector Machines  0.834081
+        #8  Gradient Boosting Classifier  0.829596
+        #6                 Decision Tree  0.802691
+        #3                 Random Forest  0.798206
+        #1                           KNN  0.780269
+        #4                   Naive Bayes  0.757848
+        # ---------------------------------------- #
+# for Later, I will pick up the most UNRELATED model
+        
 # 3.4 Increase the accuracy by using CV folders
 cv_split = ShuffleSplit(n_splits = 10, test_size = .3, 
                                         train_size = .6, random_state = 13)
@@ -334,36 +286,44 @@ cv_model = pd.DataFrame({
                   'Gradient Boosting Classifier'],
         'CVTrainScore' :cv_train_score,
         'CVTestScore' : cv_test_score})
-print(cv_model)
-   CVTestScore  CVTrainScore                         Model
-0     0.825000      0.834831       Support Vector Machines
-1     0.800373      0.867603                           KNN
-2     0.825000      0.850000           Logistic Regression
-3     0.797388      0.951685                 Random Forest
-4     0.771642      0.794007                   Naive Bayes
-5     0.821642      0.845880                    Linear SVC
-6     0.778731      0.963296                 Decision Tree
-7     0.815672      0.855243            AdaBoost classifer
-8     0.819776      0.916479  Gradient Boosting Classifier
-In [20]:
+
+# result
+        # ---------------------------------------- #
+        #       CVTestScore  CVTrainScore                         Model
+        #   0     0.824254      0.835768       Support Vector Machines
+        #   1     0.794403      0.868165                           KNN
+        #   2     0.822761      0.847378           Logistic Regression
+        #   3     0.793284      0.951685                 Random Forest
+        #   4     0.756716      0.792135                   Naive Bayes
+        #   5     0.821269      0.845131                    Linear SVC
+        #   6     0.772015      0.964419                 Decision Tree
+        #   7     0.811567      0.853371            AdaBoost classifer
+        #   8     0.819776      0.917416  Gradient Boosting Classifier
+        # ---------------------------------------- #
+# I will pick Gradient Boosting Classifier, AdaBoost classifer,Random Forest,DecisionTree
+# Linear SVC /  Support Vector Machines, Logistic Regression, KNN for final model
+# before that I will try hyper parameters tunes for better result
+        
 # 3.5 Hyper parameters tunes
 # I try to wirte a function for this tuning, but this seems to be a large 
 # computation, so I try to tune each model by each
+        
         # use estimator.get_params() to get params
 
 # 3.5.1 SVC / Linear SVC
 SVC().get_params()
-param_grid = {'C':[1,10,100],
-              'gamma': [0.01,0.001],
+param_grid = {'C':[0.1,1,10,100],
+              'gamma': [0.01,0.001, 0.0001],
               'degree': [3,5,7],
               'kernel' :['rbf','linear'],
               'random_state' : [13]}
 tuned_svc = GridSearchCV(SVC(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_svc.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_svc.best_params_)
-Best Hyper Parameters:
- {'C': 100, 'degree': 3, 'gamma': 0.01, 'kernel': 'rbf', 'random_state': 13}
-In [21]:
+
+#Best Hyper Parameters:
+# {'C': 100, 'degree': 3, 'gamma': 0.01, 'kernel': 'rbf', 'random_state': 13}
+ 
 # 3.5.2 KNN
 KNeighborsClassifier().get_params()
 param_grid = {'n_neighbors':[3,5,7,9,11],
@@ -374,9 +334,10 @@ param_grid = {'n_neighbors':[3,5,7,9,11],
 tuned_knn = GridSearchCV(KNeighborsClassifier(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_knn.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_knn.best_params_)
-Best Hyper Parameters:
- {'algorithm': 'auto', 'leaf_size': 5, 'n_jobs': -1, 'n_neighbors': 9, 'weights': 'uniform'}
-In [22]:
+
+#Best Hyper Parameters:
+#{'algorithm': 'auto', 'leaf_size': 5, 'n_jobs': -1, 'n_neighbors': 9, 'weights': 'uniform'}
+
 # 3.5.3 Logistic Regression
 LogisticRegression().get_params()
 param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000],
@@ -386,9 +347,10 @@ param_grid = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000],
 tuned_lr = GridSearchCV(LogisticRegression(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_lr.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_lr.best_params_)
-Best Hyper Parameters:
- {'C': 1, 'max_iter': 25, 'n_jobs': -1, 'random_state': 13}
-In [23]:
+
+#Best Hyper Parameters:
+# {'C': 1, 'max_iter': 25, 'n_jobs': -1, 'random_state': 13}
+ 
 # 3.5.4 Random Forest
 RandomForestClassifier().get_params()
 param_grid = {'n_estimators': [10,100,300,500,800,1000],
@@ -399,9 +361,10 @@ param_grid = {'n_estimators': [10,100,300,500,800,1000],
 tuned_rf = GridSearchCV(RandomForestClassifier(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_rf.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_rf.best_params_)
-Best Hyper Parameters:
- {'criterion': 'entropy', 'max_features': 'auto', 'n_estimators': 500, 'n_jobs': -1, 'random_state': 13}
-In [24]:
+
+#Best Hyper Parameters:
+# {'criterion': 'entropy', 'max_features': 'auto', 'n_estimators': 500, 'n_jobs': -1, 'random_state': 13}
+ 
 # 3.5.5 Decision Tree
 DecisionTreeClassifier().get_params()
 param_grid = {'criterion': ['gini', 'entropy'],
@@ -413,38 +376,42 @@ param_grid = {'criterion': ['gini', 'entropy'],
 tuned_tree = GridSearchCV(DecisionTreeClassifier(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_tree.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_tree.best_params_)
-Best Hyper Parameters:
- {'criterion': 'gini', 'max_depth': 4, 'max_features': None, 'min_samples_leaf': 3, 'min_samples_split': 8, 'random_state': 13}
-In [25]:
+
+# Best Hyper Parameters:
+#{'criterion': 'gini', 'max_depth': 4, 'max_features': None, 'min_samples_leaf': 3, 'min_samples_split': 8, 'random_state': 13}
+
 # 3.5.6 AdaBoost classife
 AdaBoostClassifier().get_params()
-param_grid = {'n_estimators': [500,800,1000,1200],
-              'learning_rate':[1,0.9],
+param_grid = {'n_estimators': [10,100,300,500,800,1000],
+              'learning_rate':[1,0.9,0.8],
               'algorithm' : ['SAMME', 'SAMME.R'],
               'random_state' : [13]}
 tuned_ada = GridSearchCV(AdaBoostClassifier(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_ada.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_ada.best_params_)
-Best Hyper Parameters:
- {'algorithm': 'SAMME', 'learning_rate': 1, 'n_estimators': 1500, 'random_state': 13}
-In [47]:
+
+#Best Hyper Parameters:
+# {'algorithm': 'SAMME', 'learning_rate': 1, 'n_estimators': 1500, 'random_state': 13}
+
 # 3.5.7 Gradient Boosting Classifier
 GradientBoostingClassifier().get_params()
-param_grid = {'learning_rate': [0.1],
-              'min_samples_split':[2,5,8],
-              'min_samples_leaf':[1],
-              'max_depth':[3,7],
-              'subsample':[.8],
-              'n_estimators':[300,500],
+param_grid = {'learning_rate': [0.1,0.2],
+              'min_samples_split':[2,5,10],
+              'min_samples_leaf':[1,2,5],
+              'max_depth':[3,5,7],
+              'max_features':['sqrt'],
+              'subsample':[.5,.8],
+              'n_estimators':[300,500,800],
               'random_state':[13]
               }
 tuned_gbm = GridSearchCV(GradientBoostingClassifier(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_gbm.fit(train_data,train_Survived)
 print("Best Hyper Parameters:\n",tuned_gbm.best_params_)
-Best Hyper Parameters:
- {'learning_rate': 0.1, 'max_depth': 3, 'min_samples_leaf': 1, 'min_samples_split': 8, 'n_estimators': 300, 'random_state': 13, 'subsample': 0.8}
-In [155]:
-# 3.5.8 cv_result with Hyperparameter Tunes
+
+#Best Hyper Parameters:
+# {'learning_rate': 0.1, 'max_depth': 3, 'min_samples_leaf': 1, 'min_samples_split': 8, 'n_estimators': 300, 'random_state': 13, 'subsample': 0.8}
+
+# 3.5.8 cv_result_with Hyerparameter tunes
 cv_result = pd.DataFrame({
         'Model' : ['Support Vector Machines/Linear SVC', 'KNN', 'Logistic Regression',
                   'Random Forest', 'Decision Tree', 'AdaBoost classifer',                   
@@ -455,18 +422,16 @@ cv_result = pd.DataFrame({
 print(cv_result)
 g = cv_result.plot(kind = 'bar',title = 'Models Accuracy Score with Hyperparameter Tunes')
 g.set_xlabel(list(cv_result['Model']))
-                                Model     Score
-0  Support Vector Machines/Linear SVC  0.859236
-1                                 KNN  0.852367
-2                 Logistic Regression  0.863971
-3                       Random Forest  0.852768
-4                       Decision Tree  0.848822
-5                  AdaBoost classifer  0.863679
-6        Gradient Boosting Classifier  0.868139
-Out[155]:
-Text(0.5,0,"['Support Vector Machines/Linear SVC', 'KNN', 'Logistic Regression', 'Random Forest', 'Decision Tree', 'AdaBoost classifer', 'Gradient Boosting Classifier']")
 
-In [156]:
+#                                Model     Score
+#0  Support Vector Machines/Linear SVC  0.859236
+#1                                 KNN  0.852367
+#2                 Logistic Regression  0.863971
+#3                       Random Forest  0.852768
+#4                       Decision Tree  0.848822
+#5                  AdaBoost classifer  0.863679
+#6        Gradient Boosting Classifier  0.868139
+
 # 3.5.9 cv train / test score with parameter tunes
 # model will tested
 svm_mod = SVC(C = 100,degree = 3, gamma = .01, kernel = 'rbf',random_state = 13)
@@ -497,20 +462,21 @@ tuned_model = pd.DataFrame({
                   'Gradient Boosting Classifier'],
         'CVTrainScore' :cv_train_score_tuned,
         'CVTestScore' : cv_test_score_tuned})
-print(tuned_model)
-   CVTestScore  CVTrainScore                         Model
-0     0.818657      0.854120       Support Vector Machines
-1     0.811940      0.855243                           KNN
-2     0.825000      0.850000           Logistic Regression
-3     0.803358      0.963296                 Random Forest
-4     0.817910      0.846816                 Decision Tree
-5     0.819776      0.871348            AdaBoost classifer
-6     0.822015      0.950375  Gradient Boosting Classifier
-In [157]:
+
+#   CVTestScore  CVTrainScore                         Model
+#0     0.818657      0.854307       Support Vector Machines
+#1     0.812687      0.854869                           KNN
+#2     0.825373      0.850000           Logistic Regression
+#3     0.803731      0.963296                 Random Forest
+#4     0.818284      0.846816                 Decision Tree
+#5     0.817537      0.870787            AdaBoost classifer
+#6     0.821269      0.949625  Gradient Boosting Classifier
+
+
+    
 # 3.6 select the top 5 modeling for stacking
 print('Select model : SVM, KNN, Logistic Regression,Gradient Boosting Classifier,Decision Tree')
-Select model : SVM, KNN, Logistic Regression,Gradient Boosting Classifier,Decision Tree
-In [158]:
+
 # 3.7 Stacking dataset
 # Predict the Survived from train by 5 different models, concatenate the predicted
 # survived as new train dataset train_stacking. Same processing to the new test
@@ -520,38 +486,36 @@ import random
 train_index = random.sample(range(1,len(train)),round(0.6*len(train)))
 test_index = random.sample(range(1,len(test)),round(0.6*len(test)))
 train_stacking = np.concatenate(
-        (svm_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data).reshape(-1,1),
-        knn_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data).reshape(-1,1),
-        lr_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data).reshape(-1,1),
-        tree_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data).reshape(-1,1),
-        gbm_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data).reshape(-1,1)),
+        (svm_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data),
+        knn_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data),
+        lr_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data),
+        tree_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data),
+        gbm_mod.fit(train_data.iloc[train_index],train_Survived.iloc[train_index]).predict(train_data)),
         axis = 1)
+        
 test_stacking = np.concatenate(
-        (svm_mod.fit(train_data,train_Survived).predict(test).reshape(-1,1),
-        knn_mod.fit(train_data,train_Survived).predict(test).reshape(-1,1),
-        lr_mod.fit(train_data,train_Survived).predict(test).reshape(-1,1),
-        tree_mod.fit(train_data,train_Survived).predict(test).reshape(-1,1),
-        gbm_mod.fit(train_data,train_Survived).predict(test).reshape(-1,1)),
+        (svm_mod.fit(train_data,train_Survived).predict(test),
+        knn_mod.fit(train_data,train_Survived).predict(test),
+        lr_mod.fit(train_data,train_Survived).predict(test),
+        tree_mod.fit(train_data,train_Survived).predict(test),
+        gbm_mod.fit(train_data,train_Survived).predict(test)),
         axis = 1)
-print(train_stacking.shape)
-print(test_stacking.shape)
-(891, 5)
-(418, 5)
-In [170]:
+
 # 3.8 stacking modeling with xgb 
-xgb_mod = xgb.XGBClassifier(
-            #learning_rate = 0.02,
-            n_estimators= 2000,
-            max_depth= 4,
-            min_child_weight= 2,
-            gamma=0.9,
-            subsample=0.8,
-            colsample_bytree=0.8,
-            objective= 'binary:logistic',
-            nthread= -1,
-            scale_pos_weight=1).fit(train_stacking, train_Survived)
-predictions = xgb_mod.predict(test_stacking)
-In [172]:
+xgb = xgb.XGBClassifier(
+    #learning_rate = 0.02,
+    n_estimators= 2000,
+    max_depth= 4,
+    min_child_weight= 2,
+    #gamma=1,
+    gamma=0.9,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    objective= 'binary:logistic',
+    nthread= -1,
+    scale_pos_weight=1).fit(train_stacking, train_Survived)
+predictions = gxgb.predict(test_stacking)
+        
 # 3.9 Submission File
 Submission = pd.DataFrame({ 'PassengerId': PassengerId,
                             'Survived': predictions })
