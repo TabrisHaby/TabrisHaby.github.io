@@ -16,8 +16,8 @@ tags:
 
 1.version
 
-    <font size = '2'>Version 1 : 2017-02-08</font>
-    <font size = '2'>Version 2 : 2018-01-16</font><br>
+    Version 1 : 2017-02-08
+    Version 2 : 2018-01-16
 
     1.Add new table Duration : record each treatment durtion for different customers
 
