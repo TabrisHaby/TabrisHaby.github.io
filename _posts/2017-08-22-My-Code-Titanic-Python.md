@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      Natural Healing Health Centre Customer DB
-subtitle:   ReadMe File
+title:      Titanic Data Analysis by Python with Model Stacking
+subtitle:   Python Code and Ipython Code
 date:       2017-11-02
 author:     Haby
 header-img: img/post-bg-2015.jpg
