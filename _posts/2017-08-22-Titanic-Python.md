@@ -2,7 +2,7 @@
 layout:     post
 title:      Titanic Data Analysis by Python with Model Stacking
 subtitle:   Python Code and Ipython Code
-date:       2017-11-02
+date:       2017-08-22
 author:     Haby
 header-img: img/post-bg-2015.jpg
 catalog: true
@@ -29,7 +29,7 @@ tags:
     P3 : Model and Stacking
     @author: Haby
     """
-    
+
 ### Part 1 :EDA
 
 1.1 import Package
