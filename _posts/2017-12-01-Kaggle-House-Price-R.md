@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      kaggle Competition : House Price in Zillow Code in R
-subtitle:   R Code Version with Random Forest
+subtitle:   R Code Version with Xgboosting
 date:       2017-12-01
 author:     Haby
 header-img: img/post-bg-2015.jpg
@@ -12,176 +12,124 @@ tags:
     - Machine Learning
 ---
 
-### import library and packages
-    library(ggplot2)
-    library(corrplot)
-    library(randomForest)
+## Input Packages
 
-    train <- read.csv(choose.files(),header = T)
-    test <- read.csv(choose.files(),header = T)
+    library(ggplot2) # Data visualization
+    library(caret) # CSV file I/O, e.g. the read_csv function
+    library(dplyr)
+    library(mice)
+    library(Hmisc)
+    library(lubridate)
+    library(data.table)
+    library(xgboost)
+    library(gbm)
 
-#### saleprice plot
+## Data Import and Transformation
 
-    ggplot(train,aes(SalePrice))+
-        geom_histogram(bins = 50,col = "white",alpha = 0.7,fill = "blue")+
-        geom_density()
+    # import data
+    properties <- fread('../input/properties_2016.csv', stringsAsFactors = FALSE)
+    train <- fread('../input/train_2016_v2.csv',stringsAsFactors = FALSE)
 
-    ggplot(train,aes(log(SalePrice)))+
-        geom_histogram(bins = 50,col = "white",alpha = 0.7,fill = "blue")
+    # check NAs
+    colSums(is.na(properties)) %>% sort(decreasing = T) %>% barchart(pt.cex = 2.5, main = 'Amount of Missing Value ')
 
-### EDA
+    # basic data transformation
+    properties$hashottuborspa <- ifelse(properties$hashottuborspa == 'true', 1, 0)
+    properties$fireplaceflag <- ifelse(properties$fireplaceflag == 'true', 1, 0)
+    properties$taxdelinquencyflag <- ifelse(properties$taxdelinquencyflag == 'Y', 1, 0)
+    properties$propertycountylandusecode <- as.numeric(as.factor(properties$propertycountylandusecode))
+    properties$propertyzoningdesc <- as.numeric(as.factor(properties$propertyzoningdesc))
 
-    # all vars vs log(SalePrice)
-    train$LogSalePrice <- log(train$SalePrice)
+    # basic transformation : numeric/ integer to factor
+    properties$buildingqualitytypeid <- as.factor(properties$buildingqualitytypeid)
+    properties$fips <- as.factor(properties$fips)
+    properties$heatingorsystemtypeid <- as.factor(properties$heatingorsystemtypeid)
+    properties$propertylandusetypeid <- as.factor(properties$propertylandusetypeid)
+    properties$regionidcity <- as.factor(properties$regionidcity)
+    properties$regionidcounty <- as.factor(properties$regionidcounty)
+    properties$regionidcity <- as.factor(properties$regionidcity)
+    properties$unitcnt <- as.factor(properties$unitcnt)
 
-    # set up train_numeric
-    train_numeric <-train[,sapply(train,is.numeric)]
 
-    # find out NA obs
-    apply(train_numeric,2,sum)
 
-    # replace NAs with 0
-    train_numeric[is.na(train_numeric)] <- 0
+## imputation           
 
-    # set up corrplot
-    corrplot(cor(train_numeric),method = "circle")
 
-    # based on corrplot, we find out the most corrated vars to saleprice and logsaleprice
-    # OverQual YearBuilt YearRemodAdd MasVnrArea TotalBsmtSF X1stFlrSF GrlivArea FullBath
-    # TotRmsAbvGrd GarafeCars GarageArea 11 in total
+    # training set
+    df <- left_join(train,properties,on = 'parcelid')
 
-#### Set Linear modeling for relationship
+    # outliers
+    df <- df %>% filter(logerror <= 0.4 & logerror >= -0.39)
 
-    # set up linear model with numeric vars
-    lm1 <- lm(LogSalePrice ~ OverallQual +YearBuilt +YearRemodAdd +MasVnrArea +TotalBsmtSF +
-           X1stFlrSF +GrLivArea +FullBath+ TotRmsAbvGrd +GarageCars+ GarageArea,
-       data = train_numeric)
+    # add new variables
+    df$age <- as.numeric(2016 - df$yearbuilt)
+    df$transactiondate <- as.Date(df$transactiondate)
+    df$month <- as.factor(month(df$transactiondate))
+    df$weekdays <- as.factor(weekdays(df$transactiondate))
+    df$transactiondate <- as.numeric(df$transactiondate)
 
-    summary(lm1)
-    # 81.92 corR
 
-    # adjust once
-    lm2 <- lm(LogSalePrice ~ OverallQual +YearBuilt +YearRemodAdd +TotalBsmtSF +
-                  X1stFlrSF +GrLivArea +GarageCars,
-              data = train_numeric)
-    summary(lm2)
-    # 81.9 corR
-#### Imputation and Groupize
-    # set up train_char
-    train_char <- train[,sapply(train,is.factor)]
+## Modeling
 
-    # check data
-    str(train_char)
 
-    # four vars have many NAs, which is Alley PoolQC Fence and MiscFeature
+## XGBoost Linear
 
-    # plot all char vars 1-6
-    par(mfrow = c(2,2))
-    plot_char <- function(x)
-    {
-        i = 1
-        for (i in 1:x)
-        plot(train_char[,i],train$LogSalePrice)
+    ## transformation all to integer/numeric
+    df1 <- df %>% mutate_if(is.factor,as.integer)
+
+    ## user-defined mae function
+    maeSummary <- function (data,
+                            lev = NULL,
+                            model = NULL) {
+      out <- ModelMetrics::mae(data$obs, data$pred)  
+      names(out) <- "MAE"
+      out
     }
-    plot_char(44)
 
-    # we pick up MSSubClass LotShape Neighbourhood PavedDrive HeatingQC
+    ## parameter
+    xgb_grid <- expand.grid(nrounds = c(160),
+                            eta = c(0.1),
+                            max_depth = c(5),
+                            gamma = c(1),
+                            colsample_bytree = c(0.8),
+                            min_child_weight = c(0.8),
+                            subsample = c(0.9))
+    fitControl <- trainControl(method = "repeatedcv",
+                               number = 10,
+                               repeats = 3,
+                               summaryFunction = maeSummary)
 
-    str(train_char$LotShape)
+    # train data set
+    train_x <- as.matrix(df1[,-c(1,2,3)])
+    train_y <- df1[,"logerror"]
 
-    # setup new variable lotshape_new and switch all IR to 0 and REG to 1
-    train$LotShape_new[train_char$LotShape == "IR1" ] <- "0"
-    train$LotShape_new[train_char$LotShape == "IR2" ] <- "0"
-    train$LotShape_new[train_char$LotShape == "IR3" ] <- "0"
-    train$LotShape_new[train_char$LotShape == "Reg" ] <- "1"
-    str(train$LotShape_new)
-
-    plot(train_char$LotShape_new,train$LogSalePrice)
-    plot(train_char$PavedDrive)
-    plot(train_char$HeatingQC)
-
-### Modeling
-    # set up random forest
-    library(randomForest)
-    set.seed(111)
-
-    random_forest_1 <- randomForest(LogSalePrice ~ OverallQual +YearBuilt +
-                                        YearRemodAdd +TotalBsmtSF +X1stFlrSF +
-                                        GrLivArea +GarageCars+LotShape_new +
-                                        PavedDrive + HeatingQC + Neighborhood,
-                                    data = train,importance = T, ntree = 2000)
-    varImpPlot(random_forest_1)
-    print(random_forest_1)
-    # % Var explained: 86.6
-    random_forest_2 <- randomForest(LogSalePrice ~ OverallQual +YearBuilt +
-                                        YearRemodAdd +TotalBsmtSF +X1stFlrSF +
-                                        GrLivArea +GarageCars+LotShape_new +
-                                         HeatingQC + Neighborhood,
-                                    data = train,importance = T, ntree = 2000)
-    varImpPlot(random_forest_2)
-    print(random_forest_2)
-    # % Var explained: 86.64
-
-    test$LotShape_new[test$LotShape == "IR1" ] <- "0"
-    test$LotShape_new[test$LotShape == "IR2" ] <- "0"
-    test$LotShape_new[test$LotShape == "IR3" ] <- "0"
-    test$LotShape_new[test$LotShape == "Reg" ] <- "1"
-    test$GarageCars[is.na(test$GarageCars)] <- 0
-    test$TotalBsmtSF[is.na(test$TotalBsmtSF)] <- 0
-
-    prediction1 <- predict(random_forest_3, test)
-    submit1 <- data.frame(Id = test$Id, SalePrice = exp(prediction1))
-    write.csv(submit1, file = "Kaggle_House_Price_20161125_1.csv",row.names = F)
+    # Model
+    set.seed(1)
+    xgbtree_mod <- train(x = train_x,
+                         y = train_y,
+                         method = 'xgbTree',
+                         trControl = fitControl,
+                         tuneGrid = xgb_grid,
+                         metric = 'MAE')
+    print(xgbtree_mod)   # MAE 0.05256457
 
 
-    # try more variables redo the numeric analysis, we pick up MasVnrArea Fireplaces TotalBsmtSF
-    # TotRmsAbvGrd GarageArea
-    lm2 <- lm(LogSalePrice ~ OverallQual +YearBuilt +YearRemodAdd +MasVnrArea +TotalBsmtSF +
-                  X1stFlrSF +GrLivArea +FullBath+ TotRmsAbvGrd +GarageCars+ GarageArea+
-                  MasVnrArea +Fireplaces +TotalBsmtSF +TotRmsAbvGrd +GarageArea,
-              data = train_numeric)
-    summary(lm2)
+## predict
+    properties1 <-data.matrix(properties)
+    submission <- properties %>%
+      mutate("201610"=predict(object=xgbtree_mod, newdata=properties1),
+             month=factor("11", levels = levels(train$month)),
+             "201611"=predict(object=xgbtree_mod, newdata=properties1),
+             month=factor("12", levels = levels(train$month)),
+             "201612"=predict(object=xgbtree_mod, newdata=properties1),
+             #month=factor("10", levels = levels(train$month)),
+             "201710"=0,
+             #month=factor("11", levels = levels(train$month)),
+             "201711"=0,
+             #month=factor("12", levels = levels(train$month)),
+             "201712"=0) %>%
+      select(parcelid, `201610`, `201611`, `201612`, `201710`, `201711`, `201712`)
 
-    lm3 <- lm(LogSalePrice ~ OverallQual +YearBuilt +YearRemodAdd+TotalBsmtSF +
-                  GrLivArea + TotRmsAbvGrd +GarageCars+ GarageArea+
-                  Fireplaces +TotalBsmtSF +TotRmsAbvGrd +GarageArea,
-              data = train_numeric)
-    summary(lm3)
-    # R-sq 0.8308
 
-    set.seed(111)
-
-    random_forest_4 <- randomForest(LogSalePrice ~ OverallQual +YearBuilt +YearRemodAdd+TotalBsmtSF +
-                                        GrLivArea + TotRmsAbvGrd +GarageCars+ GarageArea+
-                                        Fireplaces +TotalBsmtSF +TotRmsAbvGrd +GarageArea+LotShape_new +
-                                        PavedDrive + HeatingQC + Neighborhood,
-                                    data = train,importance = T, ntree = 2000)
-    varImpPlot(random_forest_4)
-    print(random_forest_4)
-    # % Var explained: 87.22
-
-    random_forest_5 <- randomForest(LogSalePrice ~ OverallQual +YearBuilt +YearRemodAdd+TotalBsmtSF +
-                                        GrLivArea + TotRmsAbvGrd +GarageCars+ GarageArea+
-                                        Fireplaces +TotalBsmtSF +TotRmsAbvGrd +GarageArea+
-                                         HeatingQC + Neighborhood +PavedDrive,
-                                    data = train,importance = T, ntree = 2000)
-    varImpPlot(random_forest_5)
-    print(random_forest_5)
-    #   % Var explained: 87.15
-
-    test$GarageArea[is.na(test$GarageArea)] <- 0
-
-    prediction2 <- predict(random_forest_5, test)
-    submit2 <- data.frame(Id = test$Id, SalePrice = exp(prediction2))
-    write.csv(submit2, file = "Kaggle_House_Price_20161125_2.csv",row.names = F)
-    # score 0.15431
-
-    random_forest_6 <- randomForest(LogSalePrice ~ OverallQual + YearBuilt + YearRemodAdd +
-                                            TotalBsmtSF + GrLivArea + TotRmsAbvGrd + GarageCars +
-                                            GarageArea + Fireplaces + TotalBsmtSF + TotRmsAbvGrd +
-                                            GarageArea + HeatingQC + Neighborhood + MSSubClass +
-                                            Foundation + MSZoning,
-                                        data = train,importance = T, ntree = 2000)
-
-    varImpPlot(random_forest_6)
-    print(random_forest_6)
+    options(scipen = 999) ## DO not use scientific notation
+    write.csv(submission, "submission_test.csv", row.names = FALSE)
