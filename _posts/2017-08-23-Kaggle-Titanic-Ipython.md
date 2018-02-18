@@ -16,21 +16,21 @@ tags:
 ```python
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb 10 17:37:31 2018
+        Created on Tue Feb 10 17:37:31 2018
 
-Titanic Competition in Kaggle
-Dataset path : E:\Data_and_Script\Python_Script\titanic\train.csv'
-Data from : Kaggle.com
+        Titanic Competition in Kaggle
+        Dataset path : E:\Data_and_Script\Python_Script\titanic\train.csv'
+        Data from : Kaggle.com
 
-Python 3.6.3
-GUI : Spyder from Anaconda 5.0.1
-OS : windows 10 v1709 64 bit
+        Python 3.6.3
+        GUI : Spyder from Anaconda 5.0.1
+        OS : windows 10 v1709 64 bit
 
-P1 : EDA
-P2 : Feature Engineering
-P3 : Model and Ensemble
+        P1 : EDA
+        P2 : Feature Engineering
+        P3 : Model and Ensemble
 
-@author: Haby
+        @author: Haby
 """
 # 1.1 import Package
 # general packages
@@ -196,7 +196,7 @@ sns.barplot(x = train.FSize,y = train.Survived,ax =ax[1])
 
 
 
-![png](/img/(output_5_2.png)
+![png](/img/output_5_2.png)
 
 
 
