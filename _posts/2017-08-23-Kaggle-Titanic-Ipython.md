@@ -1,4 +1,18 @@
 
+---
+layout:     post
+title:      Titanic Data Analysis by Python with Model Stacking
+subtitle:   Ipython Code
+date:       2017-08-23
+author:     Haby
+header-img: img/post-bg-2015.jpg
+catalog: true
+tags:
+    - Python
+    - My Work
+    - Machine Learning
+---
+
 
 ```python
 # -*- coding: utf-8 -*-
@@ -114,7 +128,7 @@ sns.countplot(train.Survived,ax = ax[0])
 
 
 
-![png](../img/output_2_1.png)
+![png](/img/output_2_1.png)
 
 
 
@@ -139,7 +153,7 @@ for data in c :
 ```
 
 
-![png](../img/output_4_0.png)
+![png](/img/output_4_0.png)
 
 
 
@@ -179,15 +193,15 @@ sns.barplot(x = train.FSize,y = train.Survived,ax =ax[1])
 
 
 
-![png](../img/output_5_1.png)
+![png](/img/output_5_1.png)
 
 
 
-![png]../img/(output_5_2.png)
+![png](/img/(output_5_2.png)
 
 
 
-![png](../img/output_5_3.png)
+![png](/img/output_5_3.png)
 
 
 
@@ -206,7 +220,7 @@ for data in c :
 ```
 
 
-![png](../img/output_6_0.png)
+![png](/img/output_6_0.png)
 
 
 
@@ -232,7 +246,7 @@ for data in c :
 ```
 
 
-![png](../img/output_7_0.png)
+![png](/img/output_7_0.png)
 
 
 
@@ -265,11 +279,11 @@ sns.barplot(x = 'Age_Group', y = 'Survived',data = train,ax = ax[1])
 
 
 
-![png](../img/output_8_1.png)
+![png](/img/output_8_1.png)
 
 
 
-![png](../img/output_8_2.png)
+![png](/img/output_8_2.png)
 
 
 
@@ -301,7 +315,7 @@ sns.barplot(x = 'Cabin', y = 'Survived',data = train,ax = ax[1])
 
 
 
-![png](../img/output_9_1.png)
+![png](/img/output_9_1.png)
 
 
 
@@ -325,7 +339,7 @@ sns.distplot(train.Fare)
 
 
 
-![png](../img/output_10_1.png)
+![png](/img/output_10_1.png)
 
 
 
@@ -347,7 +361,7 @@ sns.heatmap(train.corr(),annot=True)
 
 
 
-![png](../img/output_11_1.png)
+![png](/img/output_11_1.png)
 
 
 
@@ -438,7 +452,7 @@ g.set_xlabel(list(models['Model']))
 
 
 
-![png](../img/output_14_2.png)
+![png](/img/output_14_2.png)
 
 
 
@@ -649,7 +663,7 @@ g.set_xlabel(list(cv_result['Model']))
 
 
 
-![png](output_23_2.png)
+![png](/img/output_23_2.png)
 
 
 
