@@ -1,4 +1,16 @@
-
+---
+layout:     post
+title:      Indeed Web Crawler by Python
+subtitle:   For Data-Related in Toronto ON
+date:       2018-02-15
+author:     Haby
+header-img: img/post-bg-2015.jpg
+catalog: true
+tags:
+    - Python
+    - My Work
+    - Web Crawler
+---
 
 ```python
         # -*- coding: utf-8 -*-
@@ -6,22 +18,14 @@
         Created on Sat Feb 17 10:32:35 2018
 
         original code : https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
-        
+
         Find out the data-related job in Toronto, ON from Indeed.com
-        
+
         Do some simple analysis and visualization for job title name and key features for employees
 
         @modify: Haby
         """
 ```
-
-
-
-
-    '\nCreated on Sat Feb 17 10:32:35 2018\n\noriginal code : https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b\n\n@modify: Haby\n'
-
-
-
 
 ```python
 # import package
@@ -43,7 +47,7 @@ import matplotlib.pyplot as plt
 
 ```python
 # job title is under div/a node with data-tn-element/title label
-def job_title(soup): 
+def job_title(soup):
   jobs = []
   for div in soup.find_all(name='div', attrs={'class':'row'}):
     for a in div.find_all(name='a', attrs={'data-tn-element':'jobTitle'}):
@@ -55,7 +59,7 @@ def job_title(soup):
 
 ```python
 # company title : <span class="company"> in div node
-def company(soup): 
+def company(soup):
     companies = []
     for div in soup.find_all(name='div', attrs={'class':'row'}):
         company = div.find_all(name='span', attrs={'class':'company'})
@@ -68,13 +72,13 @@ def company(soup):
             sec_try = div.find_all(name='span', attrs={'class':'result-link-source'})
             for span in sec_try:
                 companies.append(span.text.strip())
-    return(companies) 
+    return(companies)
 ```
 
 
 ```python
 # location
-def location(soup): 
+def location(soup):
   locations = []
   spans = soup.find_all('span', attrs={'class':'location'})
   for span in spans:
@@ -84,8 +88,8 @@ def location(soup):
 
 
 ```python
-# Salary : most of salary doens't exist, fill NA 
-def salary(soup): 
+# Salary : most of salary doens't exist, fill NA
+def salary(soup):
   salaries = []
   for div in soup.find_all(name='div', attrs={'class':'row'}):
     try:
@@ -103,7 +107,7 @@ def salary(soup):
 
 ```python
 # Job Summary
-def job_summary(soup): 
+def job_summary(soup):
   summaries = []
   spans = soup.findAll('span', attrs={'class': 'summary'})
   for span in spans:
@@ -128,7 +132,7 @@ for i in page :
 
     # get the url
     page = requests.get(url)
-    
+
     # decode the pages with BeautifulSoup
     soup = BeautifulSoup(page.text, 'html.parser')
 
@@ -147,21 +151,21 @@ print(df.head())
     2                           Data Conversion Analyst       FieldEdge   
     3                                    Data Scientist      LoyaltyOne   
     4         Data Analyst, Visa Consulting & Analytics            Visa   
-    
+
           location                                            summary  \
     0  Toronto, ON  Spark, Hadoop), large scale data analysis, opt...   
     1  Toronto, ON  Gather required data from Systems, Vendors, an...   
     2  Toronto, ON  The Data Analyst will help new clients convert...   
     3  Toronto, ON  Expert knowledge of data modeling and understa...   
     4  Toronto, ON  Extensive experience with SQL for extracting a...   
-    
+
               salary  
     0  Nothing_found  
     1  Nothing_found  
     2  Nothing_found  
     3  Nothing_found  
     4  Nothing_found  
-    
+
 
 
 ```python
@@ -177,10 +181,10 @@ plt.show()
 ```
 
 
-![png](output_9_0.png)
+![png](img/indeed1.png)
 
 
-#### From graph above, we find that for data-related job in Toronto, Data Scientist is the most needed job. Although 'AI/ Machine Learning Scientist' ranks top 2, they were post by same company. 
+#### From graph above, we find that for data-related job in Toronto, Data Scientist is the most needed job. Although 'AI/ Machine Learning Scientist' ranks top 2, they were post by same company.
 
 #### Most of Top ranking jobs are analyst jobs,  but in different areas, such as IT, Business, and so on. It means that Data Analyst is needed by many areas, not only in Math / Stats and computer area.
 
@@ -202,7 +206,7 @@ for row in df['summary'] :
 ```python
 # I notice that there are lots of useless words in this list, such as 'I', 'for' and so on. I will delete them out of the words list
 
-# delete useless elements 
+# delete useless elements
 dropped = ['and','to','the','of','in','with','a','for','will','is','our','an','data','large','skills','requierd','work',
            'as','from','including','we','are','by','be','for','us','it','.','-','onto','but','not',
            'on','new']
@@ -221,7 +225,7 @@ plt.show()
 ```
 
 
-![png](output_13_0.png)
+![png](img/indeed2.png)
 
 
 
@@ -233,7 +237,7 @@ plt.show()
 ```
 
 
-![png](output_14_0.png)
+![png](img/indeed3.png)
 
 
 
@@ -245,7 +249,7 @@ plt.show()
 ```
 
 
-![png](output_15_0.png)
+![png](img/indeed4.png)
 
 
 ### Top 20 keywords seem to be more general skills that companies need, while top 20-40 seem to be professional skills
@@ -253,7 +257,7 @@ plt.show()
 #### Top 1 Analyst : Main skill for data-worker, find out the useful infomation from messes.
 #### Top 2 Experience : It seems new graduators are not welcomed.
 #### Top 5 Team : Team working skills are more important, suck as commucation skills and so on.
-#### Top18 Resposible : HRs will like you if you are responsible to your job. 
+#### Top18 Resposible : HRs will like you if you are responsible to your job.
 #### Top 19 Learning : Graduation does't mean finish studying.
 
 #### Top 20-40 : Optimization / functional / hadoop : professional skills for big data mining
