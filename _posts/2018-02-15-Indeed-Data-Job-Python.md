@@ -182,7 +182,7 @@ plt.show()
 ```
 
 
-![png](img/indeed1.png)
+![png](/img/indeed1.png)
 
 
 #### From graph above, we find that for data-related job in Toronto, Data Scientist is the most needed job. Although 'AI/ Machine Learning Scientist' ranks top 2, they were post by same company.
@@ -226,7 +226,7 @@ plt.show()
 ```
 
 
-![png](img/indeed2.png)
+![png](/img/indeed2.png)
 
 
 
@@ -238,7 +238,7 @@ plt.show()
 ```
 
 
-![png](img/indeed3.png)
+![png](/img/indeed3.png)
 
 
 
@@ -250,16 +250,16 @@ plt.show()
 ```
 
 
-![png](img/indeed4.png)
+![png](/img/indeed4.png)
 
 
 ### Top 20 keywords seem to be more general skills that companies need, while top 20-40 seem to be professional skills
 
-#### Top 1 Analyst : Main skill for data-worker, find out the useful infomation from messes.
-#### Top 2 Experience : It seems new graduators are not welcomed.
-#### Top 5 Team : Team working skills are more important, suck as commucation skills and so on.
-#### Top18 Resposible : HRs will like you if you are responsible to your job.
-#### Top 19 Learning : Graduation does't mean finish studying.
+     Top 1 Analyst : Main skill for data-worker, find out the useful infomation from messes.
+     Top 2 Experience : It seems new graduators are not welcomed.
+     Top 5 Team : Team working skills are more important, suck as commucation skills and so on.
+     Top18 Resposible : HRs will like you if you are responsible to your job.
+     Top 19 Learning : Graduation does't mean finish studying.
 
-#### Top 20-40 : Optimization / functional / hadoop : professional skills for big data mining
-#### Multi-disciplinary : word I never notice before. Ability to combine different parts together.
+     Top 20-40 : Optimization / functional / hadoop : professional skills for big data mining
+     Multi-disciplinary : word I never notice before. Ability to combine different parts together.
