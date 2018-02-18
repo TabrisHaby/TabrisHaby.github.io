@@ -9,7 +9,7 @@ Titanic Competition in Kaggle
 Dataset path : E:\Data_and_Script\Python_Script\titanic\train.csv'
 Data from : Kaggle.com
 
-Python 3.6.3 
+Python 3.6.3
 GUI : Spyder from Anaconda 5.0.1
 OS : windows 10 v1709 64 bit
 
@@ -21,7 +21,7 @@ P3 : Model and Ensemble
 """
 # 1.1 import Package
 # general packages
-import numpy as np 
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -45,7 +45,7 @@ from sklearn.model_selection import train_test_split
 # Model Tune packages
 from sklearn.model_selection import GridSearchCV
 
-# CV Folder 
+# CV Folder
 from sklearn.model_selection import cross_validate
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import ShuffleSplit
@@ -93,7 +93,7 @@ print(test.isnull().sum())
     Cabin          327
     Embarked         0
     dtype: int64
-    
+
 
 
 ```python
@@ -102,7 +102,7 @@ _,ax = plt.subplots(1,2)
 sns.countplot(train.Survived,ax = ax[0])
 (train.isnull().sum()/len(train)).plot(ax =ax[1],kind = 'bar',
     title = 'NAs in dataset')
-# More ppl died than survived, for dataset, more than 75% of Cabin is NA and 
+# More ppl died than survived, for dataset, more than 75% of Cabin is NA and
 # 20% of Age is NA and few NAs in Embarked
 ```
 
@@ -114,7 +114,7 @@ sns.countplot(train.Survived,ax = ax[0])
 
 
 
-![png](output_2_1.png)
+![png](../img/output_2_1.png)
 
 
 
@@ -139,7 +139,7 @@ for data in c :
 ```
 
 
-![png](output_4_0.png)
+![png](../img/output_4_0.png)
 
 
 
@@ -155,7 +155,7 @@ sns.barplot(x = train.SibSp,y = train.Survived,ax =ax[1,1])
 # FamilySize and IsAlone
 for data in c :
     data['FSize'] = data['Parch'] + data['SibSp'] + 1
-    
+
 # plot
 _,ax = plt.subplots(1,2)
 sns.countplot(train.FSize,ax =ax[0])
@@ -179,15 +179,15 @@ sns.barplot(x = train.FSize,y = train.Survived,ax =ax[1])
 
 
 
-![png](output_5_1.png)
+![png](../img/output_5_1.png)
 
 
 
-![png](output_5_2.png)
+![png]../img/(output_5_2.png)
 
 
 
-![png](output_5_3.png)
+![png](../img/output_5_3.png)
 
 
 
@@ -206,7 +206,7 @@ for data in c :
 ```
 
 
-![png](output_6_0.png)
+![png](../img/output_6_0.png)
 
 
 
@@ -232,7 +232,7 @@ for data in c :
 ```
 
 
-![png](output_7_0.png)
+![png](../img/output_7_0.png)
 
 
 
@@ -265,15 +265,15 @@ sns.barplot(x = 'Age_Group', y = 'Survived',data = train,ax = ax[1])
 
 
 
-![png](output_8_1.png)
+![png](../img/output_8_1.png)
 
 
 
-![png](output_8_2.png)
+![png](../img/output_8_2.png)
 
 
 
-![png](output_8_3.png)
+![png](../img/output_8_3.png)
 
 
 
@@ -301,7 +301,7 @@ sns.barplot(x = 'Cabin', y = 'Survived',data = train,ax = ax[1])
 
 
 
-![png](output_9_1.png)
+![png](../img/output_9_1.png)
 
 
 
@@ -312,7 +312,7 @@ for data in c :
 # fill na
 test['Fare'] = test.groupby(['Pclass','Cabin'])['Fare'].transform(lambda x: x.fillna(x.mean()))
 
-# plot 
+# plot
 sns.distplot(train.Fare)
 
 ```
@@ -325,7 +325,7 @@ sns.distplot(train.Fare)
 
 
 
-![png](output_10_1.png)
+![png](../img/output_10_1.png)
 
 
 
@@ -347,7 +347,7 @@ sns.heatmap(train.corr(),annot=True)
 
 
 
-![png](output_11_1.png)
+![png](../img/output_11_1.png)
 
 
 
@@ -364,13 +364,13 @@ print(train.shape)
 ```
 
     (891, 31)
-    
+
 
 
 ```python
 # 3. Modling
 # Level one model I want to use
-        
+
         # ---------------------------------------- #
         #   SVM
         #   KNN
@@ -399,7 +399,7 @@ x_train,x_test,y_train,y_test = train_test_split(train_data,train_Survived,
 models = pd.DataFrame({
     'Model': ['Support Vector Machines', 'KNN', 'Logistic Regression',
               'Random Forest', 'Naive Bayes', 'Linear SVC',
-              'Decision Tree', 'AdaBoost classifer', 
+              'Decision Tree', 'AdaBoost classifer',
               'Gradient Boosting Classifier'],
     'Score': [accuracy_score(SVC().fit(x_train,y_train).predict(x_test),y_test),
               accuracy_score(KNeighborsClassifier().fit(x_train,y_train).predict(x_test),y_test),
@@ -428,7 +428,7 @@ g.set_xlabel(list(models['Model']))
     6                 Decision Tree  0.798206
     7            AdaBoost classifer  0.852018
     8  Gradient Boosting Classifier  0.816143
-    
+
 
 
 
@@ -438,13 +438,13 @@ g.set_xlabel(list(models['Model']))
 
 
 
-![png](output_14_2.png)
+![png](../img/output_14_2.png)
 
 
 
 ```python
 # 3.4 Increase the accuracy by using CV folders
-cv_split = ShuffleSplit(n_splits = 10, test_size = .3, 
+cv_split = ShuffleSplit(n_splits = 10, test_size = .3,
                                         train_size = .6, random_state = 13)
 
 # model will tested
@@ -463,7 +463,7 @@ for model in mod :
 cv_model = pd.DataFrame({
         'Model': ['Support Vector Machines', 'KNN', 'Logistic Regression',
                   'Random Forest', 'Naive Bayes', 'Linear SVC',
-                  'Decision Tree', 'AdaBoost classifer', 
+                  'Decision Tree', 'AdaBoost classifer',
                   'Gradient Boosting Classifier'],
         'CVTrainScore' :cv_train_score,
         'CVTestScore' : cv_test_score})
@@ -480,12 +480,12 @@ print(cv_model)
     6     0.778731      0.963296                 Decision Tree
     7     0.815672      0.855243            AdaBoost classifer
     8     0.819776      0.916479  Gradient Boosting Classifier
-    
+
 
 
 ```python
 # 3.5 Hyper parameters tunes
-# I try to wirte a function for this tuning, but this seems to be a large 
+# I try to wirte a function for this tuning, but this seems to be a large
 # computation, so I try to tune each model by each
         # use estimator.get_params() to get params
 
@@ -503,7 +503,7 @@ print("Best Hyper Parameters:\n",tuned_svc.best_params_)
 
     Best Hyper Parameters:
      {'C': 100, 'degree': 3, 'gamma': 0.01, 'kernel': 'rbf', 'random_state': 13}
-    
+
 
 
 ```python
@@ -521,7 +521,7 @@ print("Best Hyper Parameters:\n",tuned_knn.best_params_)
 
     Best Hyper Parameters:
      {'algorithm': 'auto', 'leaf_size': 5, 'n_jobs': -1, 'n_neighbors': 9, 'weights': 'uniform'}
-    
+
 
 
 ```python
@@ -538,7 +538,7 @@ print("Best Hyper Parameters:\n",tuned_lr.best_params_)
 
     Best Hyper Parameters:
      {'C': 1, 'max_iter': 25, 'n_jobs': -1, 'random_state': 13}
-    
+
 
 
 ```python
@@ -557,7 +557,7 @@ print("Best Hyper Parameters:\n",tuned_rf.best_params_)
 
     Best Hyper Parameters:
      {'criterion': 'entropy', 'max_features': 'auto', 'n_estimators': 500, 'n_jobs': -1, 'random_state': 13}
-    
+
 
 
 ```python
@@ -567,7 +567,7 @@ param_grid = {'criterion': ['gini', 'entropy'],
               'max_depth': [2,4,6,8,10],
               'min_samples_split': [2,3,4,5,8],
               'min_samples_leaf': [1,2,3,5,8],
-              'max_features': ['auto',None], 
+              'max_features': ['auto',None],
               'random_state': [13]}
 tuned_tree = GridSearchCV(DecisionTreeClassifier(),param_grid=param_grid, scoring = 'roc_auc', cv = cv_split)
 tuned_tree.fit(train_data,train_Survived)
@@ -576,7 +576,7 @@ print("Best Hyper Parameters:\n",tuned_tree.best_params_)
 
     Best Hyper Parameters:
      {'criterion': 'gini', 'max_depth': 4, 'max_features': None, 'min_samples_leaf': 3, 'min_samples_split': 8, 'random_state': 13}
-    
+
 
 
 ```python
@@ -593,7 +593,7 @@ print("Best Hyper Parameters:\n",tuned_ada.best_params_)
 
     Best Hyper Parameters:
      {'algorithm': 'SAMME', 'learning_rate': 1, 'n_estimators': 1500, 'random_state': 13}
-    
+
 
 
 ```python
@@ -614,7 +614,7 @@ print("Best Hyper Parameters:\n",tuned_gbm.best_params_)
 
     Best Hyper Parameters:
      {'learning_rate': 0.1, 'max_depth': 3, 'min_samples_leaf': 1, 'min_samples_split': 8, 'n_estimators': 300, 'random_state': 13, 'subsample': 0.8}
-    
+
 
 
 ```python
@@ -639,7 +639,7 @@ g.set_xlabel(list(cv_result['Model']))
     4                       Decision Tree  0.848822
     5                  AdaBoost classifer  0.863679
     6        Gradient Boosting Classifier  0.868139
-    
+
 
 
 
@@ -680,7 +680,7 @@ for model in mod_tuned :
 
 tuned_model = pd.DataFrame({
         'Model': ['Support Vector Machines', 'KNN', 'Logistic Regression',
-                  'Random Forest', 'Decision Tree', 'AdaBoost classifer', 
+                  'Random Forest', 'Decision Tree', 'AdaBoost classifer',
                   'Gradient Boosting Classifier'],
         'CVTrainScore' :cv_train_score_tuned,
         'CVTestScore' : cv_test_score_tuned})
@@ -695,7 +695,7 @@ print(tuned_model)
     4     0.817910      0.846816                 Decision Tree
     5     0.819776      0.871348            AdaBoost classifer
     6     0.822015      0.950375  Gradient Boosting Classifier
-    
+
 
 
 ```python
@@ -705,14 +705,14 @@ print('Select model : SVM, KNN, Logistic Regression,Gradient Boosting Classifier
 ```
 
     Select model : SVM, KNN, Logistic Regression,Gradient Boosting Classifier,Decision Tree
-    
+
 
 
 ```python
 # 3.7 Stacking dataset
 # Predict the Survived from train by 5 different models, concatenate the predicted
 # survived as new train dataset train_stacking. Same processing to the new test
-# dataset test_stacking. train['Survived'] was set to the new train target as 
+# dataset test_stacking. train['Survived'] was set to the new train target as
 # train_Survived, and the final stacking model is XGBoosting
 import random
 train_index = random.sample(range(1,len(train)),round(0.6*len(train)))
@@ -733,17 +733,17 @@ test_stacking = np.concatenate(
         axis = 1)
 print(train_stacking.shape)
 print(test_stacking.shape)
-        
+
 
 ```
 
     (891, 5)
     (418, 5)
-    
+
 
 
 ```python
-# 3.8 stacking modeling with xgb 
+# 3.8 stacking modeling with xgb
 xgb_mod = xgb.XGBClassifier(
             #learning_rate = 0.02,
             n_estimators= 2000,
