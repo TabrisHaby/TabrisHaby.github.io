@@ -14,16 +14,16 @@ tags:
 
 ```python
         # -*- coding: utf-8 -*-
-        """
-        Created on Sat Feb 17 10:32:35 2018
+"""
+Created on Sat Feb 17 10:32:35 2018
 
-        original code : https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
+original code : https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
 
-        Find out the data-related job in Toronto, ON from Indeed.com
+Find out the data-related job in Toronto, ON from Indeed.com
 
-        Do some simple analysis and visualization for job title name and key features for employees
+Do some simple analysis and visualization for job title name and key features for employees
 
-        @modify: Haby
+@modify: Haby
         """
 ```
 
@@ -41,9 +41,10 @@ import matplotlib.pyplot as plt
 
 ```python
 # set up functions for each location on pages
-# Function code from  https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
-```
 
+```
+>Function code from Medium
+ >https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
 
 ```python
 # job title is under div/a node with data-tn-element/title label
