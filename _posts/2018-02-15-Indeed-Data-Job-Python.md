@@ -13,18 +13,18 @@ tags:
 ---
 
 ```python
-        # -*- coding: utf-8 -*-
-"""
-Created on Sat Feb 17 10:32:35 2018
+-*- coding: utf-8 -*-
 
-original code : https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
+# Created on Sat Feb 17 10:32:35 2018
 
-Find out the data-related job in Toronto, ON from Indeed.com
+#original code : https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
 
-Do some simple analysis and visualization for job title name and key features for employees
+#Find out the data-related job in Toronto, ON from Indeed.com
 
-@modify: Haby
-        """
+#Do some simple analysis and visualization for job title name and key features for employees
+
+#@modify: Haby
+
 ```
 
 ```python
@@ -185,11 +185,11 @@ plt.show()
 ![png](/img/indeed1.png)
 
 
-     From graph above, we find that for data-related job in Toronto, Data Scientist is the most needed job. Although 'AI/ Machine Learning Scientist' ranks top 2, they were post by same company.
+From graph above, we find that for data-related job in Toronto, Data Scientist is the most needed job. Although 'AI/ Machine Learning Scientist' ranks top 2, they were post by same company.
 
-     Most of Top ranking jobs are analyst jobs,  but in different areas, such as IT, Business, and so on. It means that Data Analyst is needed by many areas, not only in Math / Stats and computer area.
+Most of Top ranking jobs are analyst jobs,  but in different areas, such as IT, Business, and so on. It means that Data Analyst is needed by many areas, not only in Math / Stats and computer area.
 
-     Next, I will pick up some keywords in job describtion and summary to see what are the most important features for data-related workers for each company
+Next, I will pick up some keywords in job describtion and summary to see what are the most important features for data-related workers for each company
 
 
 ```python
