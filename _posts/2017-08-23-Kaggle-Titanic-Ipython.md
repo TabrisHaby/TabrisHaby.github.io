@@ -1,4 +1,3 @@
-
 ---
 layout:     post
 title:      Titanic Data Analysis by Python with Model Stacking
