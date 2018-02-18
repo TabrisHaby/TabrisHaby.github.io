@@ -23,6 +23,9 @@ tags:
 
 #Do some simple analysis and visualization for job title name and key features for employees
 
+# This is the first version with only job_title, company, location information, I will add more information such as comment scores, estimatored salary and Qualifications or Responsibilities in next version
+
+
 #@modify: Haby
 
 ```
@@ -44,7 +47,7 @@ import matplotlib.pyplot as plt
 
 ```
 >Function code from Medium
- >https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
+>https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
 
 ```python
 # job title is under div/a node with data-tn-element/title label
@@ -120,7 +123,7 @@ def job_summary(soup):
 ```python
 # Crawler Part
 
-# iterate over pages : there are 10 job list in each page and the new page starts at 10
+# iterate over pages : there are 10 job list in each page and the new page starts at 10, ie for page 2 : https://ca.indeed.com/jobs?q=Data&l=Toronto,+ON&start=10
 url_o = 'https://ca.indeed.com/jobs?q=Data&l=Toronto,+ON&start='
 page = [i*10 for i in range(0,21)]
 
@@ -129,6 +132,7 @@ df = pd.DataFrame()#columns = columns)
 
 # loop 20 pages
 for i in page :
+    # add two string together
     url =  url_o + str(i)  
 
     # get the url
@@ -257,7 +261,7 @@ plt.show()
 
      Top 1 Analyst : Main skill for data-worker, find out the useful infomation from messes.
      Top 2 Experience : It seems new graduators are not welcomed.
-     Top 5 Team : Team working skills are more important, suck as commucation skills and so on.
+     Top 5 Team : Team working skills are more important, such as commucation skills and so on.
      Top18 Resposible : HRs will like you if you are responsible to your job.
      Top 19 Learning : Graduation does't mean finish studying.
 
