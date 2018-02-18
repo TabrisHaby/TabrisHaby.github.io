@@ -267,3 +267,16 @@ plt.show()
 
      Top 20-40 : Optimization / functional / hadoop : professional skills for big data mining
      Multi-disciplinary : word I never notice before. Ability to combine different parts together.
+
+ ```python
+ # company name
+
+ # graph the top 20 companies who needed the data-related employees recently
+ df['company_name'].value_counts()[:20].plot.barh(title = 'Top 20 Companies Who Need Data-related Employees')
+
+ # Top 2 is LG Electronics and Canada Goose. For LG company, they have plan to expand
+ # the scale of enterprise. I didn't find some useful information about CG, but I guess
+ # they will produce more in winter weather ??
+ ```
+
+![png](/img/indeed5.png)
