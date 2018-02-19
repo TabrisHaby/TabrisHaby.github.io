@@ -40,11 +40,9 @@ import numpy as np
 ```
 
 
-```python
-# set up functions for each location on pages
 
-```
 >Job title and company function code from Medium
+
 >https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b
 
 ## Demo Code and Function
@@ -59,11 +57,8 @@ url ='https://ca.indeed.com/jobs?q=Data&l=Toronto%2C+ON'
 # get the url
 page = requests.get(url)
 
-#specifying a desired format of “page” using the html parser - this allows python to read the various components of the page, rather than treating it as one long string.
+#decode with BeautifulSoup
 soup = BeautifulSoup(page.text, 'html.parser')
-
-#printing soup in a more structured tree format that makes for easier reading
-print(soup.prettify())
 
 ```
 
@@ -255,7 +250,7 @@ print(sample_df)
 
 
 
-## Iterate Code
+## Iterating Pages
 
 ```python
 # Iterate Code
@@ -323,7 +318,7 @@ print(len(df))
     622
 
 
-## data cleaning
+## Data cleaning
 
 ```python
 # data cleaning
@@ -432,7 +427,7 @@ for word in words :
 ```
 
 
-## Visualization 
+## Visualization
 
 ```python
 #Visualization
@@ -442,15 +437,17 @@ g = sns.kdeplot(df['mean_sal'],shade = True)
 g.set_title('Mean Salary for data-related jobs')
 plt.show()
 
-# Apperantly there are 3 levels in salary for different level data-workers
-# entry level : salary with 20000 - 40000
-# medium level : salary with 120000 - 130000
-# advanced level : salary with more than 175000
 ```
 
 
 ![png](/img/indeed2.png)
 
+
+
+Apperantly there are 3 levels in salary for different level data-workers
+entry level : salary with 20000 - 40000,
+medium level : salary with 120000 - 130000,
+advanced level : salary with more than 175000,
 
 ```python
 # company name
@@ -459,11 +456,10 @@ plt.show()
 df['company_name'].value_counts()[:20].plot.barh(title = 'Top 20 Companies Who Need Data-related Employees')
 plt.show()
 
-# Top 2 is LG Electronics and Canada Goose. For LG company, they have plan to expand
-# the scale of enterprise. I didn't find some useful information about CG, but I guess
-# they will produce more in winter weather ??
+
 ```
 
+Top 2 is LG Electronics and Canada Goose. For LG company, they have plan to expand the scale of enterprise. I didn't find some useful information about CG, but I guess they will produce more in winter weather ??
 
 ![png](/img/indeed3.png)
 
@@ -477,6 +473,8 @@ df[['review number','company_name']].groupby('company_name').mean().sort_values(
   ascending = False).head(10).plot.barh(title = 'Top 10 companies with most reviews')
 plt.show()
 ```
+Most of top 10 commanies are so-called 'big-company', which can provide the better
+working environment, benefit and salary. Finicial and IT related companies have more reviews than other companies.
 
 
 ![png](/img/indeed4.png)
@@ -486,7 +484,7 @@ plt.show()
 ```python
 # list the top 20 important words in data related job posts
 pd.Series(key_words).value_counts()[:20].plot.barh(rot = 30,
-  title = 'Top Keywords for data-related job',legend = True)
+  title = 'Top 20 Keywords for data-related job',legend = True)
 plt.show()
 ```
 
@@ -498,14 +496,14 @@ plt.show()
 ```python
 # list the top 20-40 important words in data related job posts
 pd.Series(key_words).value_counts()[20:40].plot.barh(rot = 30,
-  title = 'Top Keywords for data-related job',legend = True)
+  title = 'Top 40 Keywords for data-related job',legend = True)
 plt.show()
 ```
 
 
 ![png](/img/indeed7.png)
 
-
+Top 20 keywords are more likely to be general features for all employees, such as analisys, experience,team,learning while top 20- 40 words are more likely to be professional skills, such as optimization, databases, management,programming. To me, it seems that employers are more care about what kind of person you are or can you work in a team environment rather than what kind of skills you have. This is totally new for me.
 
 ```python
 # sponsered
@@ -520,6 +518,8 @@ plt.show()
 
 ![png](/img/indeed8.png)
 
+
+All sponsered posts are new post(post day = 0), which means if you pay, your post will stand on the top/ bottom of first page and don't need to be worried about poshing down. Most of companies who publish the sponsered post seems to have less reviews, that means either these companies are new companies or these are small-size companies who don't need so many employees. Although just few of posts offer the salary, for the posts who offer salary information, sponsered posts are majority. Maybe small company size and less reviews means these posts need salary as a highlight for employees.  
 
 
 ```python
