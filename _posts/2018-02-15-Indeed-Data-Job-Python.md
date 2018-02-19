@@ -459,11 +459,11 @@ plt.show()
 
 ```
 
-Top 2 is LG Electronics and Canada Goose. For LG company, they have plan to expand the scale of enterprise. I didn't find some useful information about CG, but I guess they will produce more in winter weather ??
+
 
 ![png](/img/indeed3.png)
 
-
+Top 2 is LG Electronics and Canada Goose. For LG company, they have plan to expand the scale of enterprise. I didn't find some useful information about CG, but I guess they will produce more in winter weather ??
 
 
 ```python
@@ -473,13 +473,13 @@ df[['review number','company_name']].groupby('company_name').mean().sort_values(
   ascending = False).head(10).plot.barh(title = 'Top 10 companies with most reviews')
 plt.show()
 ```
-Most of top 10 commanies are so-called 'big-company', which can provide the better
-working environment, benefit and salary. Finicial and IT related companies have more reviews than other companies.
+
 
 
 ![png](/img/indeed4.png)
 
-
+Most of top 10 commanies are so-called 'big-company', which can provide the better
+working environment, benefit and salary. Financial and IT related companies have more reviews than other companies.
 
 ```python
 # list the top 20 important words in data related job posts
@@ -519,7 +519,7 @@ plt.show()
 ![png](/img/indeed8.png)
 
 
-All sponsered posts are new post(post day = 0), which means if you pay, your post will stand on the top/ bottom of first page and don't need to be worried about poshing down. Most of companies who publish the sponsered post seems to have less reviews, that means either these companies are new companies or these are small-size companies who don't need so many employees. Although just few of posts offer the salary, for the posts who offer salary information, sponsered posts are majority. Maybe small company size and less reviews means these posts need salary as a highlight for employees.  
+
 
 
 ```python
@@ -530,3 +530,5 @@ plt.show()
 
 
 ![png](/img/indeed9.png)
+
+All sponsered posts are new post(post day = 0), which means if you pay, your post will stand on the top/ bottom of first page and don't need to be worried about poshing down. Most of companies who publish the sponsered post seems to have less reviews, that means either these companies are new companies or these are small-size companies who don't need so many employees. Although just few of posts offer the salary, for the posts who offer salary information, sponsered posts are majority. Maybe small company size and less reviews means these posts need salary as a highlight for employees.  
