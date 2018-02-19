@@ -503,7 +503,7 @@ plt.show()
 
 ![png](/img/indeed7.png)
 
-Top 20 keywords are more likely to be general features for all employees, such as analisys, experience,team,learning while top 20- 40 words are more likely to be professional skills, such as optimization, databases, management,programming. To me, it seems that employers are more care about what kind of person you are or can you work in a team environment rather than what kind of skills you have. This is totally new for me.
+Top 20 keywords are more likely to be general features for all employees, such as analysis, experience,team,learning while top 20- 40 words are more likely to be professional skills, such as optimization, databases, management,programming. To me, it seems that employers are more care about what kind of person you are or can you work in a team environment rather than what kind of skills you have. This is totally new for me.
 
 ```python
 # sponsered
