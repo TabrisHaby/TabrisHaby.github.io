@@ -334,7 +334,7 @@ plt.show()
 ```
 
 
-        ![png](/img/indeed1.png)
+![png](/img/indeed1.png)
 
 
 ```python
