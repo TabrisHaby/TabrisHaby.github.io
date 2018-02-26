@@ -13,7 +13,7 @@ tags:
 ---
 
 
-# Working Environment and what is new in this version
+## Working Environment and what is new in this version
 
 -*- coding: utf-8 -*-
 
@@ -32,9 +32,9 @@ Try to analysis key words from job responsibility using NLTK package with brown 
 @author: Haby
 
 
-# Job Post Part
+## Job Post Part
 
-## Demo Code and Functions
+### Demo Code and Functions
 
 
 ```python
@@ -312,7 +312,7 @@ info('https://ca.indeed.com/viewjob?jk=53d052c5a4791a68&tk=1c77cg3ku41dk895&from
 
 
 
-## Iterating 50 Pages
+### Iterating 50 Pages
 
 
 ```python
@@ -371,7 +371,7 @@ print('Total Data we have now: ',len(df))
     Total Data we have now:  815
 
 
-## Data Cleaning
+### Data Cleaning
 
 
 ```python
@@ -447,7 +447,7 @@ df['mean_sal'] = mean_salary
 df['review number'] = df['review'].map(lambda x : int(x.split()[0].replace(',','')))
 ```
 
-## Visualization
+### python Visualization
 
 
 ```python
@@ -480,7 +480,7 @@ df['mean_sal'].value_counts()
 
 
 
-#### Salary is different with last version since many posts are renewed now and more posts won't offer salary info in posts.
+Salary is different with last version since many posts are renewed now and more posts won't offer salary info in posts.
 
 
 ```python
@@ -511,7 +511,7 @@ plt.show()
 ![png](/img/output_25_0.png)
 
 
-#### Amazon disappeared this time, I'm thinking like they won't need more employees recently, so there are no info they posts
+Amazon disappeared this time, I'm thinking like they won't need more employees recently, so there are no info they posts
 
 
 ```python
@@ -591,10 +591,10 @@ plt.show()
 ![png](/img/output_31_0.png)
 
 
-####  Nouns are more likely to be useful skills or features that employers want.
+Nouns are more likely to be useful skills or features that employers want.
 
 
-#### I find that experience is the most important features employers need (since business is almost useless). Most of companies dont want to hire new-grad since they need many time to train. Others features like support or team mean most of jobs need many staff working together. I think that 'machine' is part of 'machine learning' since there are also many 'learning' in the list. Lastly, 'client' means most of companies post on indeed are customer-oriented organization instead of acedemic institution.
+I find that experience is the most important features employers need (since business is almost useless). Most of companies dont want to hire new-grad since they need many time to train. Others features like support or team mean most of jobs need many staff working together. I think that 'machine' is part of 'machine learning' since there are also many 'learning' in the list. Lastly, 'client' means most of companies post on indeed are customer-oriented organization instead of acedemic institution.
 
 
 ```python
@@ -621,10 +621,10 @@ plt.show()
 ![png](/img/output_35_0.png)
 
 
-#### verbs are more likely to be the actions employees need to do.
+verbs are more likely to be the actions employees need to do.
 
 
-#### Verbs can be seperated into some groups : 'develop / improve / grow' means increasing the performence or experience of company or clients. 'qualified / ensure / perform' means be able to do something. And the count of 'ensure' is much more tha others.
+Verbs can be seperated into some groups : 'develop / improve / grow' means increasing the performence or experience of company or clients. 'qualified / ensure / perform' means be able to do something. And the count of 'ensure' is much more tha others.
 
 
 ```python
@@ -640,25 +640,25 @@ pd.DataFrame(df).to_csv('indeed.csv',index = False)
 
 
 
-# Visualization Part with Tableau
+## Visualization Part with Tableau
 
 
 ![png](/img/1-1.png)
 
-#### Toronto has more Opportunities than other cities and the main reason is that Toronto is the largest city in Ontario. But for smaller cities there are also some good chance for us.
+Toronto has more Opportunities than other cities and the main reason is that Toronto is the largest city in Ontario. But for smaller cities there are also some good chance for us.
 
 
 ![png](/img/1-2.png)
 
-#### Data Scientist is the most welcomed jobs recently and there are some more data-Scientist-related job titles, such as Machine Learning Scientist and research Scientist. Meanwhile, most of job titles are 'advanced-level', which need more that 7 years working experience to apply, such as Sr.manager and data power admin. While there are a few intern jobs posting recently for summer students.  
+Data Scientist is the most welcomed jobs recently and there are some more data-Scientist-related job titles, such as Machine Learning Scientist and research Scientist. Meanwhile, most of job titles are 'advanced-level', which need more that 7 years working experience to apply, such as Sr.manager and data power admin. While there are a few intern jobs posting recently for summer students.  
 
 ![png](/img/1-3.png)
 
-#### Most of companies who has lots of reviews don't post the salary information, the companies who posted salary information has less reviews but not zero.
+Most of companies who has lots of reviews don't post the salary information, the companies who posted salary information has less reviews but not zero.
 
 ![png](/img/1-4.png)
 
-#### Although for each job, they will list for more than 30 days, we can still find out the trend of posting job title by 'post days'. Post days equal 0 means this is a new post jobs. For all new post jobs, BI analytics, data power admin and data analytics are more needed than others.
+Although for each job, they will list for more than 30 days, we can still find out the trend of posting job title by 'post days'. Post days equal 0 means this is a new post jobs. For all new post jobs, BI analytics, data power admin and data analytics are more needed than others.
 
 ![png](/img/1-5.png)
 
