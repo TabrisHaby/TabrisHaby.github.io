@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      kaggle Competition : House Price in Zillow Code in R
+title:      Zillow Company American House Price Analysis in R
 subtitle:   R Code Version with Xgboosting
 date:       2017-12-01
 author:     Haby
