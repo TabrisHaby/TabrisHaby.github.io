@@ -1332,3 +1332,17 @@ print('Level 2 Modeling RMSE Score:',np.sqrt(mean_squared_error(predictions,y_te
 ```
 
     Level 2 Modeling RMSE Score: 0.0938204230879
+
+
+- Stacking Model result is better than any single model (around 20%).
+
+
+- For Further Analysis :
+
+- 1.Covert all numeric variables to dummy variables (1/0)
+
+- 2.Make better Hyper-Parameter-Tuning(Need better computer with more cores).
+
+- 3.Consider other algorithms.
+
+- 4.Set level 3 Stacking.
