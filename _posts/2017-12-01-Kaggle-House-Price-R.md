@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      Zillow Company American House Price Analysis in R
-subtitle:   R Code Version with Xgboosting
+title:      House Price Analysis in R with XGBoosting
+subtitle:   Demo in Zillow House Price Competition in Kaggle
 date:       2017-12-01
 author:     Haby
 header-img: img/post-bg-2015.jpg
@@ -10,9 +10,12 @@ tags:
     - R
     - My Work
     - Machine Learning
+    - XGBoosting
+    - Algorithms
 ---
+> Zillow House Data or any results are not allowed to publish outside of Kaggle.com, so I post scripts only here.
 
-## Input Packages
+Input Packages
 
     library(ggplot2) # Data visualization
     library(caret) # CSV file I/O, e.g. the read_csv function
@@ -24,7 +27,7 @@ tags:
     library(xgboost)
     library(gbm)
 
-## Data Import and Transformation
+Data Import and Transformation
 
     # import data
     properties <- fread('../input/properties_2016.csv', stringsAsFactors = FALSE)
@@ -52,7 +55,7 @@ tags:
 
 
 
-## imputation           
+imputation           
 
 
     # training set
@@ -69,10 +72,9 @@ tags:
     df$transactiondate <- as.numeric(df$transactiondate)
 
 
-## Modeling
+Modeling
 
-
-## XGBoost Linear
+XGBoost Linear
 
     ## transformation all to integer/numeric
     df1 <- df %>% mutate_if(is.factor,as.integer)
@@ -114,7 +116,7 @@ tags:
     print(xgbtree_mod)   # MAE 0.05256457
 
 
-## predict
+predict
     properties1 <-data.matrix(properties)
     submission <- properties %>%
       mutate("201610"=predict(object=xgbtree_mod, newdata=properties1),

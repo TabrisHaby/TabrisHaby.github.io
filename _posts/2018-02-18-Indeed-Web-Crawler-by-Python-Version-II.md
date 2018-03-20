@@ -35,7 +35,7 @@ Try to analysis key words from job responsibility using NLTK package with brown 
 
 ## Job Post Part
 
-### Demo Code and Functions
+Demo Code and Functions
 
 
 ```python
@@ -313,7 +313,7 @@ info('https://ca.indeed.com/viewjob?jk=53d052c5a4791a68&tk=1c77cg3ku41dk895&from
 
 
 
-### Iterating 50 Pages
+Iterating 50 Pages
 
 
 ```python
@@ -372,7 +372,7 @@ print('Total Data we have now: ',len(df))
     Total Data we have now:  815
 
 
-### Data Cleaning
+Data Cleaning
 
 
 ```python
@@ -448,7 +448,7 @@ df['mean_sal'] = mean_salary
 df['review number'] = df['review'].map(lambda x : int(x.split()[0].replace(',','')))
 ```
 
-### python Visualization
+python Visualization
 
 
 ```python

@@ -10,13 +10,19 @@ tags:
     - MySQL
     - My Work
 ---
+
+> This EER Diagram is allowed to publish here by the owner of Natural Healing Health Center.
+
+> This diagram is licensed under a Creative Commons Attribution 4.0 International license.
+
+
 <font size = '6'> Natural Healing Health Centre Customer DB </font>
 <font size = '5'> ReadMe File </font>
 
 
 1.version
 
-    Version 1 : 2017-02-08
+    Version 1 : 2016-02-08
     Version 2 : 2018-01-16
 
     1.Add new table Duration : record each treatment durtion for different customers

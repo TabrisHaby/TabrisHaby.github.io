@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Indeed Web Crawler by Python
+title:      Indeed Web Crawler and data analysis in Python
 subtitle:   For Data-Related Jobs in Toronto, ON
 date:       2018-02-15
 author:     Haby
