@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Indeed Web Crawler and data analysis in Python
+title:      Basic Model Stacking with Different Algorithms
 subtitle:   Boosting, Bagging and Bootstrap
 date:       2018-03-01
 author:     Haby

@@ -1,7 +1,7 @@
 # Site settings
-title: Haby's GitHub
-SEOTitle: BoYu Ha | Haby
-header-img: img/post-bg-desk.jpg
+title: Haby's Blog
+SEOTitle: Bo Yu Ha | Haby
+header-img: img/post-bg-os-metro.jpg
 email: adienus.ha@gmail.com
 description: "Python, MySQL, R, SAS"
 keyword: "Haby,Python,R,SAS,MySQL"
@@ -11,7 +11,7 @@ github_repo: "https://github.com/TabrisHaby/TabrisHaby.github.io/" # you code re
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "[ print(v) for v in 'Python' ]"
+sidebar-about-description: "[ word for word in 'Python' ]"
 sidebar-avatar: /img/i-love-haby-132224378314.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
@@ -21,7 +21,7 @@ RSS: false
 # weibo_username:     qiubaiying
 zhihu_username:     ha-ha-ha-85-89
 github_username:    TabirsHaby
-facebook_username:  
+facebook_username:
 
 #twitter_username:   qiubaiying
 
@@ -100,12 +100,24 @@ service-worker: true
 friends: [
     {
         title: "McMaster",
-        href: "www.mcmaster.ca/"
+        href: "http://www.mcmaster.ca/"
     },{
         title: "Python",
         href: "https://www.python.org/"
     },{
-        title: "Apple Developer",
-        href: "https://developer.apple.com/"
+        title: "Kaggle",
+        href: "https://www.kaggle.com"
+    },{
+        title: "MySQL",
+        href: "https://www.mysql.com"
+    },{
+        title: "Tableau",
+        href: "https://www.tableau.com"
+    },{
+        title: "Toronto Open Data",
+        href: "https://www.toronto.ca/city-government/data-research-maps/open-data/"
+    },{
+        title: "Project Gutenberg",
+        href: "https://www.gutenberg.org/"
     }
 ]
