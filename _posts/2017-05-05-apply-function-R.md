@@ -13,7 +13,7 @@ tags:
 
 >https://nsaunders.wordpress.com/2010/08/20/a-brief-introduction-to-apply-in-r
 
->A brief introduction to apply§ in R
+>A brief introduction to apply in R
 
 CREATE A MATRIX OF 10 * 2
 
