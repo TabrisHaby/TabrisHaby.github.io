@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      House Price Analysis by Python with Model Stacking
-subtitle:   Python Code
+title:      Regularized Linear Regression with Model Stacking
+subtitle:   Demo in House Price Data
 date:       2017-10-10
 author:     Haby
 header-img: img/post-bg-2015.jpg

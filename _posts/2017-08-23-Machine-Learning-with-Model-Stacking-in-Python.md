@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      Titanic Data Analysis by Python with Model Stacking
-subtitle:   Ipython Code
-date:       2017-08-23
+title:      Machine Learning with Model Stacking in Python
+subtitle:   Demo in Titanic Data
+date:       2017-06-23
 author:     Haby
 header-img: img/post-bg-2015.jpg
 catalog: true
@@ -10,6 +10,7 @@ tags:
     - Python
     - My Work
     - Machine Learning
+    - Algorithms
 ---
 
 
