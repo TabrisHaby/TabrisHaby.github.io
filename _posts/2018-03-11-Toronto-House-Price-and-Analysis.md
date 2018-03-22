@@ -2,7 +2,7 @@
 layout:     post
 title:      Toronto House Price Analysis
 subtitle:   Visualization and Trend
-date:       2018-03-011
+date:       2018-03-11
 author:     Haby
 header-img: img/post-bg-2015.jpg
 catalog: true
