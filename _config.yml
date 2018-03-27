@@ -11,7 +11,7 @@ github_repo: "https://github.com/TabrisHaby/TabrisHaby.github.io/" # you code re
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "[ word for word in 'Python' ]"
+sidebar-about-description: "Q: Why do plants hate math? A: Because it gives them square roots. "
 sidebar-avatar: /img/i-love-haby-132224378314.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
