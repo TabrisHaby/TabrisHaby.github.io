@@ -92,7 +92,7 @@ for i in range(50):
     plt.imshow(x_train.values[i].reshape(28,28))
 ```
 
-![png](../img/keras2.png)
+![png](/img/keras2.png)
 
 
 ```python
@@ -299,4 +299,4 @@ legend = ax[1].legend(loc='best', shadow=True)
 ```
 
 
-  ![png](../img/keras1.png)
+  ![png](/img/keras1.png)
