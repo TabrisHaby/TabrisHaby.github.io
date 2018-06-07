@@ -117,6 +117,7 @@ XGBoost Linear
 
 
 predict
+
     properties1 <-data.matrix(properties)
     submission <- properties %>%
       mutate("201610"=predict(object=xgbtree_mod, newdata=properties1),
