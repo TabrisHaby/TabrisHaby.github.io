@@ -1,9 +1,9 @@
 # Site settings
-title: Haby's Blog
-SEOTitle: Bo Yu Ha | Haby
+title: Personal Website
+SEOTitle: BoYu Ha | Haby
 header-img: img/post-bg-os-metro.jpg
 email: adienus.ha@gmail.com
-description: "Python, MySQL, R, SAS"
+description: "Personal Page"
 keyword: "Haby,Python,R,SAS,MySQL"
 url: "http://TabrisHaby.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
