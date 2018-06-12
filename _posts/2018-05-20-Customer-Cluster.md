@@ -921,7 +921,7 @@ plt.show()
 ```
 
 
-![png](img/customer_cluster4.png)
+![png](/img/customer_cluster4.png)
 
 
 ## Conclusion
