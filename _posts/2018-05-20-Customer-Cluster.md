@@ -733,7 +733,7 @@ data = data.apply(lambda x : x.astype("category"))
 Id = pd.Series(np.arange(1,1001))
 ```
 
-### Featiure Importance
+### Feature Importance
 
 Consider if using feature importance selection, get the non-selection PCA result first
 
