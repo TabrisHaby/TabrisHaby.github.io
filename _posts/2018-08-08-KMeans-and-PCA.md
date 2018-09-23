@@ -16,7 +16,7 @@ tags:
     - Customer
 ---
 
-<br>This Wine data set contains the results of a chemical analysis of wines grown in a specific area of Italy. I use KMeans Algorithm to cluster different Wine and check if the result is correct by comparing with label variable. </br>
+<br>This Wine data set contains the results of a chemical analysis of wines grown in a specific area of Italy. I use KMeans Algorithm to cluster different Wine and check if the result is correct by comparing with label variable.
 
 @author: Ha
 
@@ -529,7 +529,7 @@ plt.xlabel("Number of Cluster")
 
 K = 3 is the optimized solution based on elbow criterion
 
-When k = 3, cluster-inside sse is 900 < 1658 when k = 2
+When k = 3, cluster-inside sse is 1277 < 1658 when k = 2
 
 
 ```python
@@ -607,7 +607,7 @@ plt.show()
 ![png](/img/kp_8.png)
 
 
-Error Check
+5.Error Check
 
 
 ```python
